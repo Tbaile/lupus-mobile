@@ -1,5 +1,7 @@
 package it.bailettitommaso.lupus.di
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,7 +14,7 @@ import javax.inject.Singleton
 class ServiceModule {
     @Singleton
     @Provides
-    fun provideLupusService(): LupusService {
-        return LupusService.create()
+    fun provideLupusService(dataStore: DataStore<Preferences>): LupusService {
+        return LupusService.create(dataStore)
     }
 }
