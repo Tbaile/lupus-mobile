@@ -15,7 +15,10 @@ abstract class BaseRepository {
                     Resource.Success(data = response.body()!!)
                 } else {
                     val errorMessage = parseError(response.errorBody()!!)
-                    Resource.Error(errorMessage = errorMessage?.message ?: "Something went wrong.")
+                    Resource.Error(
+                        errorMessage = errorMessage?.message ?: "Something went wrong.",
+                        errorCode = response.code()
+                    )
                 }
             } catch (e: Exception) {
                 Resource.Error(errorMessage = e.message ?: "Something went wrong.")
