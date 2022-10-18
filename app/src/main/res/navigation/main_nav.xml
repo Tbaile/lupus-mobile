@@ -13,7 +13,8 @@
         <action
             android:id="@+id/action_login_required"
             app:destination="@id/login_nav"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim" />
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_bottom" />
     </fragment>
     <include app:graph="@navigation/login_nav" />
 </navigation>
