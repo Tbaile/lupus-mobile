@@ -14,25 +14,23 @@ abstract class BaseRepository {
                 if (response.isSuccessful) {
                     Resource.Success(data = response.body()!!)
                 } else {
-                    val errorMessage = parseError(response.errorBody()!!)
                     Resource.Error(
-                        errorMessage = errorMessage?.message ?: "Something went wrong.",
-                        errorCode = response.code()
+                        error = parseError(response.errorBody()!!),
+                        status = response.code()
                     )
                 }
             } catch (e: Exception) {
-                Resource.Error(errorMessage = e.message ?: "Something went wrong.")
+                Resource.Error(
+                    error = ErrorBag(message = e.message ?: "Something went wrong."),
+                    status = 400
+                )
             }
         }
     }
 
-    private fun parseError(errorBody: ResponseBody?): ErrorMessage? {
-        return try {
-            errorBody?.string()?.let {
-                Gson().fromJson(it, ErrorMessage::class.java)
-            }
-        } catch (e: Exception) {
-            null
+    private fun parseError(errorBody: ResponseBody?): ErrorBag {
+        return errorBody?.string().let {
+            Gson().fromJson(it, ErrorBag::class.java)
         }
     }
 }

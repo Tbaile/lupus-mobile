@@ -19,10 +19,10 @@ class LandingFragment : Fragment(R.layout.fragment_landing) {
         selfUserViewModel.getSelfUser().observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Error -> {
-                    val error: String = if (it.statusCode == 401) {
+                    val error: String = if (it.status == 401) {
                         "Login expired, please login again."
                     } else {
-                        it.message!!
+                        it.error!!.message
                     }
                     Toast.makeText(context, error, Toast.LENGTH_LONG).show()
                     findNavController().navigate(R.id.action_login_required)
