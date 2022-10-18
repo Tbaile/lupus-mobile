@@ -33,6 +33,9 @@ android {
         jvmTarget = '1.8'
     }
     namespace 'it.bailettitommaso.lupus'
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
