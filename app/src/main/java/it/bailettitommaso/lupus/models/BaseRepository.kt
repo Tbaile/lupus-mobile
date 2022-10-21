@@ -5,6 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
 import retrofit2.Response
+import java.io.IOException
 
 abstract class BaseRepository {
     suspend fun <T> apiCall(apiToCall: suspend () -> Response<T>): Resource<T> {
@@ -21,8 +22,15 @@ abstract class BaseRepository {
                 }
             } catch (e: Exception) {
                 Resource.Error(
-                    error = ErrorBag(message = e.message ?: "Something went wrong."),
-                    status = 400
+                    status = 400,
+                    error = when (e) {
+                        is IOException -> {
+                            ErrorBag(message = "Something seems wrong with your connection.")
+                        }
+                        else -> {
+                            ErrorBag(message = e.message ?: "Something went wrong.")
+                        }
+                    }
                 )
             }
         }
