@@ -65,7 +65,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
 
         binding.fragmentLoginButtonRegister.setOnClickListener {
-            Log.d("LoginFragment", "Registration requested!")
+            findNavController().navigate(R.id.registerFragment)
         }
     }
 }
