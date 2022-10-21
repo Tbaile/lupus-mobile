@@ -1,12 +1,12 @@
 package it.bailettitommaso.lupus.models
 
 import it.bailettitommaso.lupus.api.LupusService
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import retrofit2.HttpException
-import retrofit2.Response
+import it.bailettitommaso.lupus.models.requests.PostLogin
+import okhttp3.ResponseBody
 import javax.inject.Inject
 
-class LupusRepository @Inject constructor(private val service: LupusService): BaseRepository() {
+class LupusRepository @Inject constructor(private val service: LupusService) : BaseRepository() {
     suspend fun getSelfUser(): Resource<User> = apiCall { service.getUserSelf() }
+    suspend fun login(postLogin: PostLogin): Resource<ResponseBody> =
+        apiCall { service.login(postLogin) }
 }
