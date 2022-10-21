@@ -18,6 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import java.util.concurrent.TimeUnit
 
 interface LupusService {
 
@@ -50,7 +51,8 @@ interface LupusService {
 
             val client =
                 OkHttpClient.Builder().addInterceptor(logger).addInterceptor(jsonInterceptor)
-                    .build()
+                    .connectTimeout(5, TimeUnit.SECONDS).callTimeout(5, TimeUnit.SECONDS)
+                    .writeTimeout(5, TimeUnit.SECONDS).build()
 
             return Retrofit.Builder().baseUrl(BASE_URL).client(client)
                 .addConverterFactory(GsonConverterFactory.create()).build()
