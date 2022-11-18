@@ -27,12 +27,8 @@ class LandingFragment : Fragment(R.layout.fragment_landing) {
                     Toast.makeText(context, error, Toast.LENGTH_LONG).show()
                     findNavController().navigate(R.id.action_login_required)
                 }
-                is Resource.Loading -> {
-                    Log.d("LupusTest", "Loading...")
-                }
-                else -> {
-                    Log.d("LupusTest", it.data.toString())
-                }
+                is Resource.Loading -> {}
+                else -> Log.d("LupusTest", it.data!!.data.toString())
             }
         }
     }

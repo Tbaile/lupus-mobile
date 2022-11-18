@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit
 interface LupusService {
 
     @GET("/api/user/self")
-    suspend fun getUserSelf(): Response<User>
+    suspend fun getUserSelf(): Response<DataWrapResponse<User>>
 
     @POST("/api/user/login")
     suspend fun login(@Body postLogin: PostLogin): Response<DataWrapResponse<TokenResponse>>

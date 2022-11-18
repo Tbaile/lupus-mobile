@@ -8,7 +8,7 @@ import it.bailettitommaso.lupus.models.responses.TokenResponse
 import javax.inject.Inject
 
 class LupusRepository @Inject constructor(private val service: LupusService) : BaseRepository() {
-    suspend fun getSelfUser(): Resource<User> = apiCall { service.getUserSelf() }
+    suspend fun getSelfUser(): Resource<DataWrapResponse<User>> = apiCall { service.getUserSelf() }
     suspend fun login(postLogin: PostLogin): Resource<DataWrapResponse<TokenResponse>> =
         apiCall { service.login(postLogin) }
 
