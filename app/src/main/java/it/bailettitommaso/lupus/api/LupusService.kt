@@ -43,16 +43,22 @@ interface LupusService {
             }
 
             val jsonInterceptor = Interceptor {
-                val jsonRequest = it.request().newBuilder().addHeader("Accept", "application/json")
-                    .addHeader("Content-Type", "application/json").addHeader("Bearer", userToken)
+                val jsonRequest = it.request().newBuilder()
+                    .addHeader("Accept", "application/json")
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Authorization", "Bearer $userToken")
                     .build()
                 it.proceed(jsonRequest)
             }
 
             val client =
-                OkHttpClient.Builder().addInterceptor(logger).addInterceptor(jsonInterceptor)
-                    .connectTimeout(5, TimeUnit.SECONDS).callTimeout(5, TimeUnit.SECONDS)
-                    .writeTimeout(5, TimeUnit.SECONDS).build()
+                OkHttpClient.Builder()
+                    .addInterceptor(logger)
+                    .addInterceptor(jsonInterceptor)
+                    .connectTimeout(5, TimeUnit.SECONDS)
+                    .callTimeout(5, TimeUnit.SECONDS)
+                    .writeTimeout(5, TimeUnit.SECONDS)
+                    .build()
 
             return Retrofit.Builder().baseUrl(BASE_URL).client(client)
                 .addConverterFactory(GsonConverterFactory.create()).build()
