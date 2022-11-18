@@ -1,7 +1,6 @@
 package it.bailettitommaso.lupus
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
@@ -23,11 +22,10 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         val binding: FragmentLoginBinding = FragmentLoginBinding.bind(view)
         binding.fragmentLoginButtonLogin.setOnClickListener {
-            val data = loginViewModel.login(
+            loginViewModel.login(
                 binding.fragmentLoginEditTextEmail.text.toString(),
                 binding.fragmentLoginEditTextPassword.text.toString()
-            )
-            data.observe(viewLifecycleOwner) { resource ->
+            ).observe(viewLifecycleOwner) { resource ->
                 if (resource is Resource.Loading) {
                     binding.fragmentLoginButtonLogin.isClickable = false
                     binding.fragmentLoginButtonLogin.text = getString(R.string.loading)
@@ -40,15 +38,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                         .show()
                     resource.error.validationErrors?.onEachIndexed { index, field ->
                         val editText: EditText? = when (field.key) {
-                            "email" -> {
-                                binding.fragmentLoginEditTextEmail
-                            }
-                            "password" -> {
-                                binding.fragmentLoginEditTextPassword
-                            }
-                            else -> {
-                                null
-                            }
+                            "email" -> binding.fragmentLoginEditTextEmail
+                            "password" -> binding.fragmentLoginEditTextPassword
+                            else -> null
                         }
                         editText?.let {
                             it.selectAll()
@@ -59,7 +51,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                         }
                     }
                 } else if (resource is Resource.Success) {
-                    Log.d("LoginFragment", resource.data.toString())
+                    findNavController().navigate(R.id.landingFragment)
                 }
             }
         }
