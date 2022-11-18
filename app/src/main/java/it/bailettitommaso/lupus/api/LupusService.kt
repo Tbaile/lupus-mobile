@@ -5,12 +5,14 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import it.bailettitommaso.lupus.models.User
 import it.bailettitommaso.lupus.models.requests.PostLogin
+import it.bailettitommaso.lupus.models.requests.PostRegister
+import it.bailettitommaso.lupus.models.responses.DataWrapResponse
+import it.bailettitommaso.lupus.models.responses.TokenResponse
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -26,7 +28,10 @@ interface LupusService {
     suspend fun getUserSelf(): Response<User>
 
     @POST("/api/user/login")
-    suspend fun login(@Body postLogin: PostLogin): Response<ResponseBody>
+    suspend fun login(@Body postLogin: PostLogin): Response<DataWrapResponse<TokenResponse>>
+
+    @POST("/api/user/register")
+    suspend fun register(@Body postRegister: PostRegister): Response<DataWrapResponse<TokenResponse>>
 
     companion object {
 
